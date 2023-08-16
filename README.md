@@ -1,1 +1,1 @@
-#~ class-ecommerce
+# class-ecommerce
