@@ -117,5 +117,10 @@ class BrandViewSet(ModelViewSet):
 
 # class ProductViewSet(GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin):
 class ProductViewSet(ModelViewSet):
-    serializer_class = ProductSerializer
-    queryset = Product.objects.all()
+    # serializer_class = ProductSerializer
+    queryset = Product.objects.select_related('brand', 'category').prefetch_related('variants').all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return ProductSerializer
+        return ProductPostSerializer
